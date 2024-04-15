@@ -17,7 +17,7 @@ public class PlayerManager : MonoBehaviour
     public TMP_Text healthCostText, attackCostText, fortuneCostText;
     public Button healthButton, attackButton, fortuneButton;
 
-    public bool tearBonus, bladeBonus, ringBonus, prismBonus;
+    public float tearBonus, bladeBonus, ringBonus, prismBonus;
 
     [SerializeField]
     ArtifactManager artifactManager;
@@ -52,6 +52,11 @@ public class PlayerManager : MonoBehaviour
             artifactManager.ownedArtifactButtons[i].interactable = artifactManager.ownedArtifacts[i].cd <= 0;
             artifactManager.ownedArtifactButtons[i].gameObject.GetComponentInChildren<TMP_Text>().enabled = artifactManager.ownedArtifacts[i].cd > 0;
         }
+
+        tearBonus = 1 + (artifactManager.ownedArtifacts.Where(a => a.name == artifactManager.artifacts[0].name).ToList().Count / 10f);
+        bladeBonus = 1 + (artifactManager.ownedArtifacts.Where(a => a.name == artifactManager.artifacts[1].name).ToList().Count / 10f);
+        ringBonus = 1 + (artifactManager.ownedArtifacts.Where(a => a.name == artifactManager.artifacts[2].name).ToList().Count / 10f);
+        prismBonus = 1 + (artifactManager.ownedArtifacts.Where(a => a.name == artifactManager.artifacts[3].name).ToList().Count / 10f);
     }
 
     public void UpgradeHealth()
