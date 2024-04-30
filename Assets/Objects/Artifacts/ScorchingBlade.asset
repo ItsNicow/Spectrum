@@ -19,5 +19,5 @@ MonoBehaviour:
   activeDescription: Increase ATK by 10% for 6 seconds
   price: 100000
   cooldown: 25
-  cd: 0
+  artifactPrefab: {fileID: 386081723883800858, guid: 92c669a8f8382ec4987a33b942720874, type: 3}
   sprite: {fileID: 21300000, guid: 7211f2608b61a3044bc90b75e89a1267, type: 3}

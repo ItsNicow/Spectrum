@@ -1,4 +1,4 @@
-using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -8,35 +8,37 @@ using UnityEngine.UI;
 public class ArtifactManager : MonoBehaviour
 {
     [Header("Artifacts")]
-    public List<Artifact> artifacts = new();
+    public List<ArtifactData> artifacts = new();
+    [HideInInspector]
     public List<Artifact> ownedArtifacts = new();
+    [HideInInspector]
     public List<Button> artifactButtons;
-    public List<Button> ownedArtifactButtons;
 
     [Header("Shop Menu")]
     public GameObject artifactPrefab;
     public Transform artifactParent;
 
     [Header("UI")]
-    public GameObject ownedArtifactPrefab;
     public Transform ownedArtifactParent;
 
     [SerializeField]
     PlayerManager playerManager;
     [SerializeField]
     AudioManager audioManager;
+    [SerializeField]
+    GameManager gameManager;
 
     private void Awake()
     {
         for (int i = 0; i < artifacts.Count; i++)
         {
-            GameObject a = GameObject.Instantiate(artifactPrefab, artifactParent);
+            GameObject a = Instantiate(artifactPrefab, artifactParent);
 
             TMP_Text[] texts = a.GetComponentsInChildren<TMP_Text>();
             texts[1].text = artifacts[i].name;
             texts[2].text = artifacts[i].passiveName;
             texts[3].text = artifacts[i].passiveDescription;
-            texts[4].text = artifacts[i].activeName + " (" + artifacts[i].cooldown + "s)";
+            texts[4].text = artifacts[i].activeName + " (" + artifacts[i].cooldown + ")";
             texts[5].text = artifacts[i].activeDescription;
             texts[6].text = artifacts[i].price.ToString();
 
@@ -50,47 +52,45 @@ public class ArtifactManager : MonoBehaviour
         }
 
         artifactButtons = artifactParent.GetComponentsInChildren<Button>().ToList();
+    }
 
-        foreach (Artifact artifact in artifacts)
+    public void PurchaseArtifact(ArtifactData artifact)
+    {
+        GameObject a = Instantiate(artifact.artifactPrefab, ownedArtifactParent);
+
+        Artifact artifactComponent = a.GetComponent<Artifact>();
+        artifactComponent.Init(artifact, audioManager, this, gameManager);
+
+        ownedArtifacts.Add(artifactComponent);
+    }
+
+    public void DisableArtifact(Type type)
+    {
+        foreach (Artifact artifact in ownedArtifacts)
         {
-            artifact.cd = 0;
-            artifact.active = audioManager.artifacts.Where(source => source.clip.name.ToLower() == artifact.name.Replace(" ", "").Replace("'", "").ToLower()).First();
-            artifact.audioManager = audioManager;
+            if (artifact.GetType() == type)
+            {
+                artifact.cd = artifact.cooldown;
+            }
         }
     }
 
-    private void Update()
+    public void ReduceCooldowns(bool skills, bool artifacts, float amount)
     {
-        UpdateCooldowns(Time.deltaTime);
-        UpdateDisplay();
-    }
-
-    void UpdateCooldowns(float dT)
-    {
-        foreach (Artifact artifact in artifacts)
+        if (skills)
         {
-            artifact.cd -= dT;
+            playerManager.waterCd -= amount;
+            playerManager.fireCd -= amount;
+            playerManager.airCd -= amount;
+            playerManager.earthCd -= amount;
         }
-    }
 
-    void UpdateDisplay()
-    {
-        for (int i = 0; i < ownedArtifacts.Count; i++)
+        if (artifacts)
         {
-            ownedArtifactButtons[i].gameObject.GetComponentInChildren<TMP_Text>().text = Mathf.RoundToInt(ownedArtifacts[i].cd).ToString();
+            foreach (Artifact artifact in ownedArtifacts)
+            {
+                artifact.cd -= amount;
+            }
         }
-    }
-
-    public void PurchaseArtifact(Artifact artifact)
-    {
-        GameObject a = GameObject.Instantiate(ownedArtifactPrefab, ownedArtifactParent);
-
-        a.GetComponent<Image>().sprite = artifact.sprite;
-        a.GetComponent<Button>().onClick.AddListener(() =>
-        {
-            artifact.Active();
-        });
-
-        ownedArtifactButtons.Add(a.GetComponent<Button>());
     }
 }

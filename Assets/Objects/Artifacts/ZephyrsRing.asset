@@ -16,8 +16,8 @@ MonoBehaviour:
   passiveName: Skyborne
   passiveDescription: +10% <color=#52CCA5>Air <color=black>DMG
   activeName: Windwall
-  activeDescription: Reduce all enemies' SPD by 20% for 4 seconds
+  activeDescription: Slow all enemies by 20% for 8 seconds
   price: 100000
   cooldown: 20
-  cd: 0
+  artifactPrefab: {fileID: 9074433295355360638, guid: 96599796019b7f04a9645e91081cb01b, type: 3}
   sprite: {fileID: 21300000, guid: 8bc8158a3ee55114cae7b55c967591dd, type: 3}

@@ -19,5 +19,5 @@ MonoBehaviour:
   activeDescription: Reduce all cooldowns by 2 seconds
   price: 100000
   cooldown: 10
-  cd: 0
+  artifactPrefab: {fileID: 3287041550285673492, guid: eb47eb24123642b43bb5d17502b85589, type: 3}
   sprite: {fileID: 21300000, guid: 68c57a17e7e728845bf954fb24913b9f, type: 3}

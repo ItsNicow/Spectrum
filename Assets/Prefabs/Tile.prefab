@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f93840314a246243b315ac556c5c3a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  position: {x: 0, y: 0}
   spriteRenderer: {fileID: 8755375327560913531}
   tile: {fileID: 21300000, guid: 109c211216fd3ed4c9b5e4e062494557, type: 3}
   tileHover: {fileID: 21300000, guid: a20a2043319d50845a5f7b89b9d23843, type: 3}

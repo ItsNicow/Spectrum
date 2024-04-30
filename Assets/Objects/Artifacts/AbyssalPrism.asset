@@ -14,12 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Abyssal Prism
   passiveName: Boulder
-  passiveDescription: +10% <color=#573519>Earth <color=black>DMG
+  passiveDescription: +10% <color=#805029>Earth <color=black>DMG
   activeName: Revive
   activeDescription: Heal 5% HP and gain 50 HP for 10 seconds
   price: 100000
   cooldown: 30
-  cd: 4.060569
+  artifactPrefab: {fileID: 6396923415599887664, guid: c5a60b1d388a817448d0e5d5fb7ec543, type: 3}
   sprite: {fileID: 21300000, guid: 52df83254e808f24884b018702459390, type: 3}
-  active: {fileID: 0}
-  audioManager: {fileID: 0}
